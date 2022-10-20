@@ -163,19 +163,6 @@ public enum FileType {
         return true;
     }
 
-    /**
-     * Get the file type of the supplied InputStream (which MUST support mark and reset).
-     * <p>
-     * <p>
-     * If unsure if your InputStream does support mark / reset, use {@link #prepareToCheckType(InputStream)} to wrap it
-     * and make sure to always use that, and not the original!
-     * <p>
-     * <p>
-     * Even if this method returns {@link FileType#UNKNOWN} it could potentially mean, that the ZIP stream has leading
-     * junk bytes
-     *
-     * @param inp An InputStream which supports either mark/reset
-     */
     public static FileType valueOf(InputStream inp) throws IOException {
         if (!inp.markSupported()) {
             inp = prepareToCheckType(inp);
@@ -187,12 +174,6 @@ public enum FileType {
         return FileType.valueOf(data);
     }
 
-    /**
-     * Checks if an {@link InputStream} can be reset (i.e. used for checking the header type) and wraps it if not
-     *
-     * @param stream stream to be checked for wrapping
-     * @return a mark enabled stream
-     */
     public static InputStream prepareToCheckType(InputStream stream) {
         if (stream.markSupported()) {
             return stream;

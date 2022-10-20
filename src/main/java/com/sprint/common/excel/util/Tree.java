@@ -13,11 +13,6 @@ import java.util.Collection;
  */
 public interface Tree<T extends Tree<T>> extends Cloneable, Serializable {
 
-    /**
-     * 树层级
-     *
-     * @return
-     */
     default int level() {
         int level = 0;
 
@@ -34,11 +29,6 @@ public interface Tree<T extends Tree<T>> extends Cloneable, Serializable {
         return level;
     }
 
-    /**
-     * 树深度
-     *
-     * @return
-     */
     default int depth() {
         if (getChildren() == null || getChildren().isEmpty()) {
             return 1;
@@ -76,33 +66,16 @@ public interface Tree<T extends Tree<T>> extends Cloneable, Serializable {
         return width;
     }
 
-    /**
-     * 父节点
-     *
-     * @return
-     */
+
     @Transient
     T getParent();
 
-    /**
-     * 设置父节点
-     *
-     * @param parent
-     * @return
-     */
+
     void setParent(T parent);
 
-    /**
-     * 获取子节点
-     *
-     * @return
-     */
+
     Collection<T> getChildren();
 
-    /**
-     * 设置子节点
-     *
-     * @param children
-     */
+
     void setChildren(Collection<T> children);
 }

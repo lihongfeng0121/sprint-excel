@@ -11,11 +11,6 @@ public class ExportableBeanSheetArray<T extends ExcelExportable> implements Exce
 
     private final ExcelCell[] headers;
 
-    /**
-     * @param headers 头数组
-     * @param <T>
-     * @return ExcelCell
-     */
     public static <T extends ExcelExportable> ExportableBeanSheetArray<T> of(String[] headers) {
         return new ExportableBeanSheetArray<>(headers);
     }

@@ -33,12 +33,6 @@ public class Files {
         return false;
     }
 
-    /**
-     * 创建文件夹
-     *
-     * @param folder
-     * @return
-     */
     public static boolean createFolder(String folder) {
         File folderPath = new File(folder);
         try {
@@ -52,13 +46,6 @@ public class Files {
         return true;
     }
 
-    /**
-     * 将数据写入指定路径文件中
-     *
-     * @param bs
-     * @param filePath
-     * @throws Exception
-     */
     public static void writeBytesFile(byte[] bs, String filePath) throws Exception {
         File file = new File(filePath);
         File parentFile = file.getParentFile();
@@ -74,13 +61,7 @@ public class Files {
         }
     }
 
-    /**
-     * 将数据写入指定路径文件中
-     *
-     * @param in
-     * @param filePath
-     * @throws Exception
-     */
+
     public static void writeBytesFile(InputStream in, String filePath) throws Exception {
         File file = new File(filePath);
         File parentFile = file.getParentFile();
@@ -107,13 +88,6 @@ public class Files {
         }
     }
 
-    /**
-     * 根据文件路径读取文件数据
-     *
-     * @param filePath
-     * @return
-     * @throws IOException
-     */
     public static byte[] readBytesFile(String filePath) throws IOException {
         File file = new File(filePath);
         try (FileInputStream fis = new FileInputStream(file)) {
@@ -123,13 +97,7 @@ public class Files {
         }
     }
 
-    /**
-     * 根据图片url获取图片byte[]
-     *
-     * @param strUrl
-     * @return byte[]
-     * @since 2015-8-5
-     */
+
     public static byte[] readByteArrayByUrl(String strUrl) {
         ByteArrayOutputStream baos = null;
         try {
@@ -154,12 +122,6 @@ public class Files {
         return null;
     }
 
-    /**
-     * 文件转字符
-     *
-     * @param file
-     * @return
-     */
     public static String file2String(File file) {
         StringBuilder result = new StringBuilder();
         try {
@@ -184,12 +146,6 @@ public class Files {
         }
     }
 
-    /**
-     * 保存并下载图片
-     *
-     * @param strUrl
-     * @throws Exception
-     */
     public static byte[] getImageFromNetByUrl(String strUrl) {
         try {
             URL url = new URL(strUrl);
@@ -209,8 +165,8 @@ public class Files {
      * 从输入流中获取数据
      *
      * @param inStream 输入流
-     * @return
-     * @throws Exception
+     * @return bytes
+     * @throws Exception e
      */
     public static byte[] readInputStream(InputStream inStream) throws Exception {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -291,13 +247,7 @@ public class Files {
         return path.toString();
     }
 
-    /**
-     * 下载文件
-     *
-     * @param urlStr
-     * @param path
-     * @throws Exception
-     */
+
     public static void downloadFile(String urlStr, String path) throws IOException {
         DataInputStream dataInputStream = null;
         FileOutputStream fileOutputStream = null;

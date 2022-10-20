@@ -152,7 +152,7 @@ public class Miscs {
      * @param <K>       源Map key的范型
      * @param <K2>      目标Map的key值
      * @param <V>       源Map val的范型
-     * @return
+     * @return map
      */
     public static <K, V, K2> Map<K2, V> rewriteKey(Map<K, V> map, Function<K, K2> keyWriter) {
         Map<K2, V> rewrite;
@@ -199,12 +199,6 @@ public class Miscs {
     }
 
 
-    /**
-     * 翻转K-V
-     *
-     * @param map 源map
-     * @return 返回翻转后的map
-     */
     public static <K, V> Map<V, K> reverse(Map<K, V> map) {
         Map<V, K> reversed;
         if (Types.getConstructorIfAvailable(map.getClass()) != null) {
@@ -228,7 +222,7 @@ public class Miscs {
      * 集合大小
      *
      * @param collection 集合
-     * @return
+     * @return size
      */
     public static int size(Collection<?> collection) {
         if (collection == null) {
@@ -256,12 +250,7 @@ public class Miscs {
         data[offset + 7] = (byte) ((value >>> 56) & 0xFF);
     }
 
-    /**
-     * @param input
-     * @param size
-     * @return
-     * @throws IOException
-     */
+
     public static InputStream[] copyInputStream(InputStream input, int size) throws IOException {
         // 将InputStream对象转换成ByteArrayOutputStream
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -293,13 +282,6 @@ public class Miscs {
         return path.toString();
     }
 
-
-    /**
-     * 创建文件夹
-     *
-     * @param folder
-     * @return
-     */
     public static boolean createFileFolder(String folder) {
         File folderPath = new File(folder);
         try {

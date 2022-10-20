@@ -9,8 +9,6 @@ import java.util.List;
 
 /**
  * bean可倒出的
- *
- * @param <T>
  */
 public class BeanSheetArray<T> implements Excelable<T> {
 
@@ -37,7 +35,7 @@ public class BeanSheetArray<T> implements Excelable<T> {
     /**
      * @param headers   头数组
      * @param propertys 属性名
-     * @param <T>
+     * @param <T> t
      * @return ExcelCell
      */
     public static <T> BeanSheetArray<T> of(String[] headers, String[] propertys) {

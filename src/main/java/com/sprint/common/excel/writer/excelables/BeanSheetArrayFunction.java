@@ -27,12 +27,7 @@ public class BeanSheetArrayFunction<T> implements Excelable<T> {
         this.function = function;
     }
 
-    /**
-     * @param headers   头数组
-     * @param propertys 属性名
-     * @param function  根据属性和对象获取ExcelCell
-     * @return ExcelCell
-     */
+
     public static <T> BeanSheetArrayFunction<T> of(String[] headers, String[] propertys,
                                                    BiFunction<T, String, String> function) {
         return new BeanSheetArrayFunction<>(headers, propertys, function);

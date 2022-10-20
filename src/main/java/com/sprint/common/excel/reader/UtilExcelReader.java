@@ -226,10 +226,11 @@ public class UtilExcelReader {
     /**
      * 读Excel
      *
+     * @param sheetName       sheetName
      * @param titleRowNumber  标题行号
      * @param dateStartNumber 数据行号
      * @param fin             输入流
-     * @return List<XTDRow>
+     * @return List
      * @throws Exception e
      */
     public static List<XTDRow> readExcel2XTDRow(String sheetName, int titleRowNumber, int dateStartNumber,
@@ -239,16 +240,7 @@ public class UtilExcelReader {
                 Excels.getExcelType(inputStreams[1]));
     }
 
-    /**
-     * 读Excel
-     *
-     * @param titleRowNumber  标题行号
-     * @param dateStartNumber 数据行号
-     * @param fin             输入流
-     * @param excelType       excel类型
-     * @return List<XTDRow>
-     * @throws Exception e
-     */
+
     public static List<XTDRow> readExcel2XTDRow(String sheetName, int titleRowNumber, int dateStartNumber,
                                                 InputStream fin, ExcelType excelType) throws Exception {
 
@@ -276,7 +268,7 @@ public class UtilExcelReader {
      *
      * @param sheetName sheetName
      * @param fin       输入流
-     * @return List<XTDRow>
+     * @return List
      * @throws Exception e
      */
     public static List<XTDRow> readExcel2XTDRow(String sheetName, InputStream fin) throws Exception {
@@ -287,9 +279,10 @@ public class UtilExcelReader {
     /**
      * 读Excel
      *
+     * @param sheetName sheetName
      * @param fin       输入流
      * @param excelType excel类型
-     * @return List<XTDRow>
+     * @return List
      * @throws Exception e
      */
     public static List<XTDRow> readExcel2XTDRow(String sheetName, InputStream fin, ExcelType excelType)
@@ -301,7 +294,7 @@ public class UtilExcelReader {
      * 读Excel
      *
      * @param fin 输入流
-     * @return List<XTDRow>
+     * @return List
      * @throws Exception e
      */
     public static List<XTDRow> readExcel2XTDRow(InputStream fin) throws Exception {
@@ -314,7 +307,7 @@ public class UtilExcelReader {
      *
      * @param fin       输入流
      * @param excelType excel类型
-     * @return List<XTDRow>
+     * @return List
      * @throws Exception e
      */
     public static List<XTDRow> readExcel2XTDRow(InputStream fin, ExcelType excelType) throws Exception {
@@ -397,8 +390,10 @@ public class UtilExcelReader {
     /**
      * 读Excel
      *
-     * @param fin 输入流
-     * @return 行List<Map> [{"header":"value"},{"header":"value2"}]
+     * @param dateStartNumber dateStartNumber
+     * @param titleRowNumber  titleRowNumber
+     * @param fin             输入流
+     * @return 行List
      * @throws Exception e
      */
     public static List<Map<String, XCol>> readExcel2Map(int titleRowNumber, int dateStartNumber, InputStream fin)
@@ -410,9 +405,11 @@ public class UtilExcelReader {
     /**
      * 读Excel
      *
-     * @param fin       输入流
-     * @param excelType excel类型
-     * @return 行List<Map> [{"header":"value"},{"header":"value2"}]
+     * @param dateStartNumber dateStartNumber
+     * @param titleRowNumber  titleRowNumber
+     * @param fin             输入流
+     * @param excelType       excel类型
+     * @return 行List
      * @throws Exception e
      */
     public static List<Map<String, XCol>> readExcel2Map(int titleRowNumber, int dateStartNumber, InputStream fin,
@@ -435,7 +432,7 @@ public class UtilExcelReader {
      * 读Excel
      *
      * @param fin 输入流
-     * @return 行List<Map> [{"header":"value"},{"header":"value2"}]
+     * @return 行List
      * @throws Exception e
      */
     public static List<Map<String, XCol>> readExcel2Map(InputStream fin) throws Exception {
@@ -448,7 +445,7 @@ public class UtilExcelReader {
      *
      * @param fin       输入流
      * @param excelType excel类型
-     * @return 行List<Map> [{"header":"value"},{"header":"value2"}]
+     * @return 行List
      * @throws Exception
      */
     public static List<Map<String, XCol>> readExcel2Map(InputStream fin, ExcelType excelType) throws Exception {
@@ -459,7 +456,7 @@ public class UtilExcelReader {
      * 读Excel
      *
      * @param fin 输入流
-     * @return 行List<Map> [{"header":"value"},{"header":"value2"}]
+     * @return 行List
      * @throws Exception e
      */
     public static <T> List<T> readExcel2Bean(Class<T> beanType, InputStream fin) throws Exception {
@@ -472,7 +469,7 @@ public class UtilExcelReader {
      *
      * @param fin       输入流
      * @param excelType excel类型
-     * @return 行List<Map> [{"header":"value"},{"header":"value2"}]
+     * @return 行List
      * @throws Exception e
      */
     public static <T> List<T> readExcel2Bean(Class<T> beanType, InputStream fin, ExcelType excelType) throws Exception {
@@ -483,7 +480,7 @@ public class UtilExcelReader {
      * 读Excel
      *
      * @param fin 输入流
-     * @return 行List<Map> [{"header":"value"},{"header":"value2"}]
+     * @return 行List
      * @throws Exception e
      */
     public static <T> List<T> readExcel2Bean(int titleRowNumber, int dateStartNumber, Class<T> beanType,
@@ -498,7 +495,7 @@ public class UtilExcelReader {
      *
      * @param fin       输入流
      * @param excelType excel类型
-     * @return 行List<Map> [{"header":"value"},{"header":"value2"}]
+     * @return 行List
      * @throws Exception e
      */
     public static <T> List<T> readExcel2Bean(int titleRowNumber, int dateStartNumber, Class<T> beanType,
@@ -518,23 +515,11 @@ public class UtilExcelReader {
                 .map(item -> BeanConverter.convert(item, beanType)).collect(Collectors.toList());
     }
 
-    /**
-     * @param xRows
-     * @param titleRowNumber
-     * @param dateStartNumber
-     * @return
-     */
     public static List<Map<String, XCol>> xRows2Map(List<XRow> xRows, int titleRowNumber, int dateStartNumber) {
         return xRows2XTDRow(xRows, titleRowNumber, dateStartNumber).stream().map(XTDRow::getTitleColMap)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * @param xRows
-     * @param titleRowNumber
-     * @param dateStartNumber
-     * @return
-     */
     public static List<XTDRow> xRows2XTDRow(List<XRow> xRows, int titleRowNumber, int dateStartNumber) {
         if (Miscs.size(xRows) < dateStartNumber) {
             return Collections.emptyList();

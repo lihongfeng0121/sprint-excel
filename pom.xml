@@ -12,10 +12,10 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <javadoc.opts>-Xdoclint:none</javadoc.opts>
+        <javadoc.opts>-OCLint:none</javadoc.opts>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <slf4j.version>2.0.0</slf4j.version>
+        <slf4j.version>2.0.3</slf4j.version>
         <jackson.version>2.13.3</jackson.version>
         <poi.version>4.1.2</poi.version>
         <junit.version>4.13.2</junit.version>

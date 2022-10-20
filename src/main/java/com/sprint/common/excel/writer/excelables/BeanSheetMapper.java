@@ -36,11 +36,6 @@ public class BeanSheetMapper<T> implements Excelable<T> {
         this.numberCell = numberCell;
     }
 
-    /**
-     * @param mapper 头/属性映射
-     * @param <T>
-     * @return ExcelCell
-     */
     public static <T> BeanSheetMapper<T> of(Map<String, String> mapper) {
         return new BeanSheetMapper<>(mapper);
     }
