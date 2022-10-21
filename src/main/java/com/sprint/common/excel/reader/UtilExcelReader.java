@@ -490,14 +490,6 @@ public class UtilExcelReader {
                 Excels.getExcelType(inputStreams[1]));
     }
 
-    /**
-     * 读Excel
-     *
-     * @param fin       输入流
-     * @param excelType excel类型
-     * @return 行List
-     * @throws Exception e
-     */
     public static <T> List<T> readExcel2Bean(int titleRowNumber, int dateStartNumber, Class<T> beanType,
                                              InputStream fin, ExcelType excelType) throws Exception {
         List<Map<String, XCol>> mapList = readExcel2Map(titleRowNumber, dateStartNumber, fin, excelType);
