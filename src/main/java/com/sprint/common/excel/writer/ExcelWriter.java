@@ -23,8 +23,8 @@ import java.util.function.BiFunction;
  */
 public class ExcelWriter {
 
-    private String fileName;
-    private Workbook workbook;
+    private final String fileName;
+    private final Workbook workbook;
 
     private final Map<ExcelCellStyle, CellStyle> styleMap = new HashMap<>();
     private final Map<String, ExcelSheetWriter<?>> sheetMap = new HashMap<>();

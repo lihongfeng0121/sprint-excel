@@ -17,7 +17,7 @@ import java.nio.file.Files;
 public class ExcelDataExporter {
 
 
-    private ExcelWriter excelWriter;
+    private final ExcelWriter excelWriter;
 
     public ExcelDataExporter(ExcelWriter excelWriter) {
         this.excelWriter = excelWriter;
