@@ -11,21 +11,21 @@ import java.util.List;
  */
 public class Sheet {
 
-    private Integer sheetNumber;
+    private int sheetNumber;
     private String sheetName;
     private List<XRow> rows;
 
-    public Sheet(Integer sheetNumber, String sheetName, List<XRow> rows) {
+    public Sheet(int sheetNumber, String sheetName, List<XRow> rows) {
         this.sheetNumber = sheetNumber;
         this.sheetName = sheetName;
         this.rows = rows;
     }
 
-    public Integer getSheetNumber() {
+    public int getSheetNumber() {
         return sheetNumber;
     }
 
-    public void setSheetNumber(Integer sheetNumber) {
+    public void setSheetNumber(int sheetNumber) {
         this.sheetNumber = sheetNumber;
     }
 

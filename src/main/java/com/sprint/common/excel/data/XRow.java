@@ -5,16 +5,16 @@ import java.util.List;
 
 public class XRow {
 
-    private Integer number;
+    private final int number;
 
-    private List<XCol> col;
+    private final List<XCol> col;
 
-    public XRow(Integer number) {
+    public XRow(int number) {
         this.number = number;
         col = new ArrayList<>();
     }
 
-    public XRow(Integer number, List<XCol> col) {
+    public XRow(int number, List<XCol> col) {
         this.number = number;
         this.col = col;
     }
@@ -23,7 +23,7 @@ public class XRow {
         return col;
     }
 
-    public Integer getNumber() {
+    public int getNumber() {
         return number;
     }
 

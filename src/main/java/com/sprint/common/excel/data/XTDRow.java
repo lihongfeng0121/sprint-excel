@@ -13,9 +13,9 @@ import java.util.Map;
  */
 public class XTDRow extends XRow {
 
-    private XRow titleRow;
+    private final XRow titleRow;
 
-    private Map<String, XCol> titleColMap;
+    private final Map<String, XCol> titleColMap;
 
     public XTDRow(XRow titleRow, XRow dataRow) {
         super(dataRow.getNumber(), dataRow.getCol());
