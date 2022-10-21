@@ -71,20 +71,20 @@ public class ExcelWriter {
         this.sheetMap.put(sheetExporter.getSheet().getSheetName(), sheetExporter);
     }
 
-    public ExcelSheetWriteCreator createSheet() {
-        return new ExcelSheetWriteCreator(getDefaultSheetName(), Integer.MAX_VALUE);
+    public SheetCreator createSheet() {
+        return new SheetCreator(getDefaultSheetName(), 0);
     }
 
-    public ExcelSheetWriteCreator createSheet(int maxRow) {
-        return new ExcelSheetWriteCreator(getDefaultSheetName(), maxRow);
+    public SheetCreator createSheet(int maxRow) {
+        return new SheetCreator(getDefaultSheetName(), maxRow);
     }
 
-    public ExcelSheetWriteCreator createSheet(String sheetName) {
-        return new ExcelSheetWriteCreator(sheetName, Integer.MAX_VALUE);
+    public SheetCreator createSheet(String sheetName) {
+        return new SheetCreator(sheetName, 0);
     }
 
-    public ExcelSheetWriteCreator createSheet(String sheetName, int maxRow) {
-        return new ExcelSheetWriteCreator(sheetName, maxRow);
+    public SheetCreator createSheet(String sheetName, int maxRow) {
+        return new SheetCreator(sheetName, maxRow);
     }
 
     public ExcelSheetWriter<?> getSheetWriterByName(String sheetName) {
@@ -112,12 +112,12 @@ public class ExcelWriter {
     }
 
 
-    public class ExcelSheetWriteCreator {
+    public class SheetCreator {
 
         private final String sheetName;
         private final int maxRow;
 
-        public ExcelSheetWriteCreator(String sheetName, int maxRow) {
+        public SheetCreator(String sheetName, int maxRow) {
             this.sheetName = sheetName;
             this.maxRow = maxRow;
         }

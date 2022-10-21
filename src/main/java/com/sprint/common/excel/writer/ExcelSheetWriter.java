@@ -19,10 +19,10 @@ import java.util.Map;
  */
 public class ExcelSheetWriter<T> {
 
-    private ExcelWriter excelWriter;
+    private final ExcelWriter excelWriter;
+    private final Excelable<T> exporter;
+    private final Map<ExcelCellStyle, CellStyle> styleMap;
     private Sheet sheet;
-    private Excelable<T> exporter;
-    private Map<ExcelCellStyle, CellStyle> styleMap;
     private int rowNum = 0;
     private String sheetName;
     private int maxRow;
