@@ -17,9 +17,9 @@ import java.util.Objects;
  *
  * @since 2018-8-14
  */
-public class Files {
+public class FileUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(Files.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
     public static boolean isExcel(InputStream inputStream) {
         try {
@@ -82,7 +82,7 @@ public class Files {
             }
 
             fos.flush();
-            LoggerFactory.getLogger(Files.class).info("write file path:{}", file.getCanonicalPath());
+            LoggerFactory.getLogger(FileUtils.class).info("write file path:{}", file.getCanonicalPath());
         } finally {
             fos.close();
         }

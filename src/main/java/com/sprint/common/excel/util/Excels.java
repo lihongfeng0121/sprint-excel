@@ -35,7 +35,7 @@ public class Excels {
     private static final int DEF_ROW_ACCESS_WINDOW_SIZE = 10000;
 
     public static boolean isExcelFile(InputStream inputStream) {
-        return Files.isExcel(inputStream);
+        return FileUtils.isExcel(inputStream);
     }
 
     public static ExcelType getExcelType(InputStream inputStream) {

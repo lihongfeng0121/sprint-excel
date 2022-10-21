@@ -169,7 +169,7 @@ public enum FileType {
         }
 
         // Grab the first bytes of this stream
-        byte[] data = Files.peekFirstNBytes(inp, MAX_PATTERN_LENGTH);
+        byte[] data = FileUtils.peekFirstNBytes(inp, MAX_PATTERN_LENGTH);
 
         return FileType.valueOf(data);
     }

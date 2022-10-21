@@ -19,8 +19,6 @@ import java.util.function.Function;
  */
 public class Miscs {
 
-    private static final Logger logger = LoggerFactory.getLogger(Miscs.class);
-
     /**
      * 是否为空串
      *
@@ -268,30 +266,5 @@ public class Miscs {
         }
 
         return inputStreams;
-    }
-
-    public static String resolveFilePath(String... pathMore) {
-        StringBuilder path = new StringBuilder();
-        for (String pstr : pathMore) {
-            if (path.lastIndexOf(File.separator) != (path.length() - File.separator.length())) {
-                path.append(File.separator);
-            }
-            path.append(pstr);
-        }
-
-        return path.toString();
-    }
-
-    public static boolean createFileFolder(String folder) {
-        File folderPath = new File(folder);
-        try {
-            if (!folderPath.exists()) {
-                return folderPath.mkdir();
-            }
-        } catch (Exception e) {
-            logger.error("[FileUtil][saveFile]mkdir error!", e);
-            return false;
-        }
-        return true;
     }
 }

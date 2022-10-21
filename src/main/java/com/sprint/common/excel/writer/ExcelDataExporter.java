@@ -1,7 +1,7 @@
 package com.sprint.common.excel.writer;
 
 import com.sprint.common.excel.util.Excels;
-import com.sprint.common.excel.util.Miscs;
+import com.sprint.common.excel.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,9 +32,9 @@ public class ExcelDataExporter {
             filePath = filePath.replace(excelWriter.getFileName(), "");
         }
 
-        com.sprint.common.excel.util.Files.createFolder(filePath);
+        FileUtils.createFolder(filePath);
 
-        export(Files.newOutputStream(new File(Miscs.resolveFilePath(filePath, excelWriter.getFileName())).toPath()));
+        export(Files.newOutputStream(new File(FileUtils.resolvePath(filePath, excelWriter.getFileName())).toPath()));
     }
 
     public void export(javax.servlet.http.HttpServletResponse response) throws IOException {
