@@ -31,7 +31,6 @@ public class XCellBeanSheet<T> implements Excelable<T> {
 
     private final boolean numberCell;
 
-    //
     static class FieldNode extends AbstractTree<FieldNode> {
 
         private final PropertyAccess field;

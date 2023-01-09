@@ -11,8 +11,19 @@ import com.sprint.common.excel.data.ExcelCell;
  */
 public interface Excelable<T> {
 
+    /**
+     * 标题
+     *
+     * @return 标题行数据
+     */
     ExcelCell[] exportRowName();
 
-    ExcelCell[] exportRowValue(T var1);
+    /**
+     * 行数据
+     *
+     * @param obj 行数据BEAN
+     * @return 行数据
+     */
+    ExcelCell[] exportRowValue(T obj);
 
 }

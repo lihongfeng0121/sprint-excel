@@ -114,7 +114,9 @@ public enum FileType {
      */
     UNKNOWN(new byte[0]);
 
-    // update this if a longer pattern is added
+    /**
+     * update this if a longer pattern is added
+     */
     final static int MAX_PATTERN_LENGTH = 44;
 
     final byte[][] type;

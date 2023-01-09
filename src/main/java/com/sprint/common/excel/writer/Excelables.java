@@ -13,7 +13,7 @@ import java.util.function.BiFunction;
  * @version 1.0
  * @since 2020年02月18日
  */
-public abstract class Excelables {
+public final class Excelables {
 
     public static final Excelable<?> NONE = new Excelable<Object>() {
         @Override

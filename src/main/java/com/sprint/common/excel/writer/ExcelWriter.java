@@ -10,9 +10,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 /**
  * excel 写入
@@ -26,8 +25,8 @@ public class ExcelWriter {
     private final String fileName;
     private final Workbook workbook;
 
-    private final Map<ExcelCellStyle, CellStyle> styleMap = new HashMap<>();
-    private final Map<String, ExcelSheetWriter<?>> sheetMap = new HashMap<>();
+    private final Map<ExcelCellStyle, CellStyle> styleMap = new LinkedHashMap<>();
+    private final Map<String, ExcelSheetWriter> sheetMap = new LinkedHashMap<>();
 
     private static final String DEFAULT_SHEET_NAME = "sheet";
 
@@ -67,31 +66,36 @@ public class ExcelWriter {
         }
     }
 
-    void putSheet(ExcelSheetWriter<?> sheetExporter) {
-        this.sheetMap.put(sheetExporter.getSheet().getSheetName(), sheetExporter);
+    void putSheet(ExcelSheetWriter sheetExporter) {
+        this.sheetMap.put(sheetExporter.currentSheet().getSheetName(), sheetExporter);
     }
 
-    public SheetCreator createSheet() {
-        return new SheetCreator(getDefaultSheetName(), 0);
+    public ExcelSheetWriter createSheet() {
+        String defaultSheetName = getDefaultSheetName();
+        return createSheet(defaultSheetName, 0);
     }
 
-    public SheetCreator createSheet(int maxRow) {
-        return new SheetCreator(getDefaultSheetName(), maxRow);
+    public ExcelSheetWriter createSheet(int maxRow) {
+        String defaultSheetName = getDefaultSheetName();
+        return createSheet(defaultSheetName, maxRow);
     }
 
-    public SheetCreator createSheet(String sheetName) {
-        return new SheetCreator(sheetName, 0);
+    public ExcelSheetWriter createSheet(String sheetName) {
+        return createSheet(sheetName, 0);
     }
 
-    public SheetCreator createSheet(String sheetName, int maxRow) {
-        return new SheetCreator(sheetName, maxRow);
+    public ExcelSheetWriter createSheet(String sheetName, int maxRow) {
+        ExcelSheetWriter excelSheetWriter =
+                new ExcelSheetWriter(ExcelWriter.this, Excels.createSheet(ExcelWriter.this.getWorkbook(), sheetName), maxRow);
+        this.putSheet(excelSheetWriter);
+        return excelSheetWriter;
     }
 
-    public ExcelSheetWriter<?> getSheetWriterByName(String sheetName) {
+    public ExcelSheetWriter getSheetWriterByName(String sheetName) {
         return this.sheetMap.get(sheetName);
     }
 
-    public ExcelSheetWriter<?> getCurrentDefaultSheetWriter() {
+    public ExcelSheetWriter getCurrentDefaultSheetWriter() {
         return this.sheetMap.get(getDefaultSheetName());
     }
 
@@ -111,62 +115,12 @@ public class ExcelWriter {
         return this.styleMap;
     }
 
+    private volatile ExcelDataExporter excelDataExporter;
 
-    public class SheetCreator {
-
-        private final String sheetName;
-        private final int maxRow;
-
-        public SheetCreator(String sheetName, int maxRow) {
-            this.sheetName = sheetName;
-            this.maxRow = maxRow;
+    public ExcelDataExporter exporter() {
+        if (excelDataExporter == null) {
+            excelDataExporter = new ExcelDataExporter(this);
         }
-
-
-        public <T> ExcelSheetWriter<T> excelable(Excelable<T> exporter) {
-            ExcelSheetWriter<T> sheetExporter =
-                    new ExcelSheetWriter<>(ExcelWriter.this, Excels.createSheet(ExcelWriter.this.getWorkbook(), sheetName), exporter, maxRow);
-            ExcelWriter.this.putSheet(sheetExporter);
-            return sheetExporter;
-        }
-
-        public <T> ExcelSheetWriter<T> empty() {
-            ExcelSheetWriter<T> sheetExporter =
-                    new ExcelSheetWriter<>(ExcelWriter.this, Excels.createSheet(ExcelWriter.this.getWorkbook(), sheetName), Excelables.none(), maxRow);
-            ExcelWriter.this.putSheet(sheetExporter);
-            return sheetExporter;
-        }
-
-        public <T> ExcelSheetWriter<T> of(Map<String, String> mapper) {
-            return excelable(Excelables.of(mapper));
-        }
-
-
-        public <T> ExcelSheetWriter<T> ofNumber(Map<String, String> mapper) {
-            return excelable(Excelables.ofNumber(mapper));
-        }
-
-        public <T> ExcelSheetWriter<T> of(String[] headers, String[] propertys) {
-            return excelable(Excelables.of(headers, propertys));
-        }
-
-        public <T> ExcelSheetWriter<T> ofNumber(String[] headers, String[] propertys) {
-            return excelable(Excelables.ofNumber(headers, propertys));
-        }
-
-        public <T> ExcelSheetWriter<T> of(String[] headers) {
-            return excelable(Excelables.of(headers, headers));
-        }
-
-        public <T> ExcelSheetWriter<T> of(String[] headers, String[] propertys,
-                                          BiFunction<T, String, String> function) {
-            return excelable(Excelables.of(headers, propertys, function));
-        }
-
-        public <T> ExcelSheetWriter<T> of(Class<T> xCelBeanClass) {
-            return excelable(Excelables.of(xCelBeanClass));
-        }
-
+        return excelDataExporter;
     }
-
 }

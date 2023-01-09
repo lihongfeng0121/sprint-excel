@@ -23,5 +23,10 @@ public abstract class StringExcelExportable implements ExcelExportable {
         return rowValues;
     }
 
+    /**
+     * 字符串行数据
+     *
+     * @return 行数据
+     */
     public abstract String[] stringRowValue();
 }

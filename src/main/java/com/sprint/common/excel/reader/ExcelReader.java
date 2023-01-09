@@ -12,6 +12,12 @@ import java.util.List;
  */
 public interface ExcelReader {
 
+    /**
+     * 处理
+     *
+     * @return sheets
+     * @throws Exception e
+     */
     List<Sheet> process() throws Exception;
 
 }

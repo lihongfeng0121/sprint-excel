@@ -11,5 +11,10 @@ import com.sprint.common.excel.data.ExcelCell;
  */
 public interface ExcelExportable {
 
+    /**
+     * 行数据
+     *
+     * @return 行数据
+     */
     ExcelCell[] rowValue();
 }

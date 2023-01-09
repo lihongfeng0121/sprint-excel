@@ -446,43 +446,21 @@ public class UtilExcelReader {
      * @param fin       输入流
      * @param excelType excel类型
      * @return 行List
-     * @throws Exception
+     * @throws Exception e
      */
     public static List<Map<String, XCol>> readExcel2Map(InputStream fin, ExcelType excelType) throws Exception {
         return readExcel2Map(DEFAULT_TITLE_ROW_NUMBER, DEFAULT_DATA_ROW_NUMBER, fin, excelType);
     }
 
-    /**
-     * 读Excel
-     *
-     * @param fin 输入流
-     * @return 行List
-     * @throws Exception e
-     */
     public static <T> List<T> readExcel2Bean(Class<T> beanType, InputStream fin) throws Exception {
         InputStream[] inputStreams = Miscs.copyInputStream(fin, 2);
         return readExcel2Bean(beanType, inputStreams[0], Excels.getExcelType(inputStreams[1]));
     }
 
-    /**
-     * 读Excel
-     *
-     * @param fin       输入流
-     * @param excelType excel类型
-     * @return 行List
-     * @throws Exception e
-     */
     public static <T> List<T> readExcel2Bean(Class<T> beanType, InputStream fin, ExcelType excelType) throws Exception {
         return readExcel2Bean(DEFAULT_TITLE_ROW_NUMBER, DEFAULT_DATA_ROW_NUMBER, beanType, fin, excelType);
     }
 
-    /**
-     * 读Excel
-     *
-     * @param fin 输入流
-     * @return 行List
-     * @throws Exception e
-     */
     public static <T> List<T> readExcel2Bean(int titleRowNumber, int dateStartNumber, Class<T> beanType,
                                              InputStream fin) throws Exception {
         InputStream[] inputStreams = Miscs.copyInputStream(fin, 2);

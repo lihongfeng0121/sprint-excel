@@ -33,6 +33,8 @@ public class Excels {
     private static final Logger log = LoggerFactory.getLogger(Excels.class);
 
     private static final int DEF_ROW_ACCESS_WINDOW_SIZE = 10000;
+    public static final String CLIENT_ABORT_EXCEPTION = "ClientAbortException";
+    public static final int GBK_LEN = 24;
 
     public static boolean isExcelFile(InputStream inputStream) {
         return FileUtils.isExcel(inputStream);
@@ -110,13 +112,12 @@ public class Excels {
     public static void exportToExcel(OutputStream output, Workbook wb) {
         try {
             wb.write(output);
-        } catch (IOException var4) {
-            String simplename = var4.getClass().getSimpleName();
-            if ("ClientAbortException".equals(simplename)) {
+        } catch (IOException ex) {
+            String simplename = ex.getClass().getSimpleName();
+            if (CLIENT_ABORT_EXCEPTION.equals(simplename)) {
                 log.warn("Error while exporting data.And it's a ClientAbortException");
             }
         }
-
     }
 
     public static Sheet createSheet(Workbook wb, String sheetName) {
@@ -132,11 +133,8 @@ public class Excels {
 
     public static <A> int exportHeadRow2Sheet(Sheet sheet, Excelable<A> exporter) {
         int maxColumnNum = 0;
-        ExcelCell[] var3 = exporter.exportRowName();
-        int var4 = var3.length;
-
-        for (int var5 = 0; var5 < var4; ++var5) {
-            ExcelCell excelCell = var3[var5];
+        ExcelCell[] cells = exporter.exportRowName();
+        for (ExcelCell excelCell : cells) {
             maxColumnNum = Math.max(maxColumnNum, excelCell.getColumnNumOffset() + excelCell.getColumnSize());
         }
 
@@ -144,12 +142,12 @@ public class Excels {
             sheet.setColumnWidth(i, 5120);
         }
 
-        Map<ExcelCellStyle, CellStyle> styleMap = new HashMap<>();
+        Map<ExcelCellStyle, CellStyle> styleMap = new HashMap<>(16);
         return createRow(sheet, 0, exporter.exportRowName(), styleMap);
     }
 
     public static <A> int exportDaraRow2Sheet(Sheet sheet, int rowNum, List<A> datas, Excelable<A> exporter) {
-        Map<ExcelCellStyle, CellStyle> styleMap = new HashMap<>();
+        Map<ExcelCellStyle, CellStyle> styleMap = new HashMap<>(16);
         return exportDaraRow2Sheet(sheet, rowNum, datas, exporter, styleMap);
     }
 
@@ -168,9 +166,9 @@ public class Excels {
                                 Map<ExcelCellStyle, CellStyle> styleMap) {
         int nextRowNum = rowNumAnchor;
         Workbook wb = sheet.getWorkbook();
-        Drawing p = sheet.createDrawingPatriarch();
+        Drawing<?> p = sheet.createDrawingPatriarch();
 
-        Map<Integer, List<ExcelCell>> mapByRowNum = new HashMap<>();
+        Map<Integer, List<ExcelCell>> mapByRowNum = new HashMap<>(16);
 
         for (ExcelCell value : values) {
             mapByRowNum.computeIfAbsent(value.getRowNumOffset(), ArrayList::new).add(value);
@@ -248,7 +246,7 @@ public class Excels {
 
         if (cellType == 0) {
             if (val instanceof Number) {
-                cell.setCellValue(Double.valueOf(val.toString()));
+                cell.setCellValue(Double.parseDouble(val.toString()));
             } else {
                 cell.setCellValue(0.0D);
             }
@@ -258,7 +256,7 @@ public class Excels {
 
     }
 
-    public static Comment createCellComment(Drawing draw, ExcelCell value, short col, int row) {
+    public static Comment createCellComment(Drawing<?> draw, ExcelCell value, short col, int row) {
         short col2;
         int row2 = row + 1;
         int len = 0;
@@ -269,7 +267,7 @@ public class Excels {
             var8.printStackTrace();
         }
 
-        if (len > 24) {
+        if (len > GBK_LEN) {
             col2 = (short) (col + 3);
             row2 = row + (len - 1) / 24 + 1;
         } else {

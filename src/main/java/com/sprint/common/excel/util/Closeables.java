@@ -24,16 +24,4 @@ public final class Closeables {
             }
         }
     }
-
-    public static void closeAndSwallowIOExceptions(Closeable... closeables) {
-        for (Closeable c : closeables) {
-            if (c != null) {
-                try {
-                    c.close();
-                } catch (IOException ex) {
-                    logger.error("Encountered exception closing closeable", ex);
-                }
-            }
-        }
-    }
 }

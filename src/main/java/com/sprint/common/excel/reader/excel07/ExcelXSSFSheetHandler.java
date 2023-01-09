@@ -4,12 +4,12 @@ import com.sprint.common.excel.data.XCol;
 import com.sprint.common.excel.data.XRow;
 import org.apache.poi.ss.usermodel.BuiltinFormats;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.xssf.eventusermodel.ReadOnlySharedStringsTable;
 import org.apache.poi.xssf.model.StylesTable;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
@@ -24,64 +24,68 @@ import java.util.List;
  */
 public class ExcelXSSFSheetHandler extends DefaultHandler {
 
-    /**
-     * The type of the data value is indicated by an attribute on the cell. The value is usually in a "v" element within
-     * the cell.
-     */
-    enum XSSFDataType {
-        BOOL, ERROR, FORMULA, INLINESTR, SSTINDEX, NUMBER,
-    }
+    public static final String ROW = "row";
+    public static final String CELL_TYPE_KEY = "t";
+    public static final String CELL_STYLE_STR_KEY = "s";
+    public static final String ROW_NUM_KEY = "r";
+    public static final String CELL_KEY = "c";
+    public static final String VAL_KEY = "v";
+    public static final String REFERENCE_KEY = "r";
 
     /**
      * Table with styles
      */
-    private StylesTable stylesTable;
+    private final StylesTable stylesTable;
 
     /**
      * Table with unique strings
      */
-    private ReadOnlySharedStringsTable sharedStringsTable;
+    private final ReadOnlySharedStringsTable sharedStringsTable;
 
     /**
      * Number of columns to read starting with leftmost
      */
     private int minColumnCount = 0;
 
-    // Set when V start element is seen
+    /**
+     * Set when V start element is seen
+     */
     private boolean vIsOpen;
 
-    // Set when cell start element is seen;
-    // used when cell close element is seen.
+    /**
+     * Set when cell start element is seen;
+     * used when cell close element is seen.
+     */
     private XSSFDataType nextDataType;
 
-    // Used to format numeric cell values.
+    /**
+     * Used to format numeric cell values.
+     */
     private short formatIndex;
     private String formatString;
-    private final DataFormatter formatter;
+    private final DataFormatter formatter = new DataFormatter();
 
     private int thisColumn = -1;
-    // The last column printed to the output stream
+
+    /**
+     * The last column printed to the output stream
+     */
     private int lastColumnNumber = -1;
-
-    // Gathers characters as they are seen.
-    private StringBuffer value;
-
-    private List<XRow> rows = new ArrayList<XRow>();
 
     private int thisRow = -1;
 
     /**
-     * Accepts objects needed while parsing.
-     *
-     * @param styles  Table of styles
-     * @param strings Table of shared strings
+     * Gathers characters as they are seen.
      */
-    public ExcelXSSFSheetHandler(StylesTable styles, ReadOnlySharedStringsTable strings) {
-        this.stylesTable = styles;
-        this.sharedStringsTable = strings;
-        this.value = new StringBuffer();
+    private final StringBuffer value = new StringBuffer();
+
+    private final List<XRow> rows = new ArrayList<XRow>();
+
+
+    public ExcelXSSFSheetHandler(StylesTable stylesTable, ReadOnlySharedStringsTable sharedStringsTable) {
+        this.stylesTable = stylesTable;
+        this.sharedStringsTable = sharedStringsTable;
         this.nextDataType = XSSFDataType.NUMBER;
-        this.formatter = new DataFormatter();
     }
 
     public List<XRow> getRows() {
@@ -99,15 +103,15 @@ public class ExcelXSSFSheetHandler extends DefaultHandler {
      */
     @Override
     public void startElement(String uri, String localName, String name, Attributes attributes) {
-        if ("inlineStr".equals(name) || "v".equals(name)) {
+        if (XSSFDataType.INLINESTR.getCode().equals(name) || VAL_KEY.equals(name)) {
             vIsOpen = true;
             // Clear contents cache
             value.setLength(0);
         }
         // c => cell
-        else if ("c".equals(name)) {
+        else if (CELL_KEY.equals(name)) {
             // Get the cell reference
-            String r = attributes.getValue("r");
+            String r = attributes.getValue(REFERENCE_KEY);
             int firstDigit = -1;
             for (int c = 0; c < r.length(); ++c) {
                 if (Character.isDigit(r.charAt(c))) {
@@ -118,22 +122,12 @@ public class ExcelXSSFSheetHandler extends DefaultHandler {
             thisColumn = nameToColumn(r.substring(0, firstDigit));
 
             // Set up defaults.
-            this.nextDataType = XSSFDataType.NUMBER;
+            String cellType = attributes.getValue(CELL_TYPE_KEY);
+            String cellStyleStr = attributes.getValue(CELL_STYLE_STR_KEY);
             this.formatIndex = -1;
             this.formatString = null;
-            String cellType = attributes.getValue("t");
-            String cellStyleStr = attributes.getValue("s");
-            if ("b".equals(cellType)) {
-                nextDataType = XSSFDataType.BOOL;
-            } else if ("e".equals(cellType)) {
-                nextDataType = XSSFDataType.ERROR;
-            } else if ("inlineStr".equals(cellType)) {
-                nextDataType = XSSFDataType.INLINESTR;
-            } else if ("s".equals(cellType)) {
-                nextDataType = XSSFDataType.SSTINDEX;
-            } else if ("str".equals(cellType)) {
-                nextDataType = XSSFDataType.FORMULA;
-            } else if (cellStyleStr != null) {
+            this.nextDataType = XSSFDataType.codeOf(cellType, XSSFDataType.NUMBER);
+            if (XSSFDataType.NUMBER.equals(nextDataType) && cellStyleStr != null) {
                 // It's a number, but almost certainly one
                 // with a special style or format
                 int styleIndex = Integer.parseInt(cellStyleStr);
@@ -146,9 +140,9 @@ public class ExcelXSSFSheetHandler extends DefaultHandler {
             }
         }
 
-        if ("row".equals(name)) {
+        if (ROW.equals(name)) {
             // 容器中加入行
-            int rowNum = Integer.parseInt(attributes.getValue("r"));
+            int rowNum = Integer.parseInt(attributes.getValue(ROW_NUM_KEY));
             rows.add(new XRow(rowNum));
             thisRow++;
         }
@@ -161,7 +155,7 @@ public class ExcelXSSFSheetHandler extends DefaultHandler {
         String thisStr = null;
 
         // v => contents of a cell
-        if ("v".equals(name)) {
+        if (VAL_KEY.equals(name)) {
             // Process the value contents as required.
             // Do now, as characters() may be called more than once
             switch (nextDataType) {
@@ -191,10 +185,9 @@ public class ExcelXSSFSheetHandler extends DefaultHandler {
                     String sstIndex = value.toString();
                     try {
                         int idx = Integer.parseInt(sstIndex);
-                        XSSFRichTextString rtss = new XSSFRichTextString(sharedStringsTable.getEntryAt(idx));
+                        RichTextString rtss = sharedStringsTable.getItemAt(idx);
                         thisStr = rtss.toString();
-                    } catch (NumberFormatException ex) {
-                        // output.println("Failed to parse SST index '" + sstIndex + "': " + ex.toString());
+                    } catch (NumberFormatException ignored) {
                     }
                     break;
 
@@ -232,7 +225,7 @@ public class ExcelXSSFSheetHandler extends DefaultHandler {
                 lastColumnNumber = thisColumn;
             }
 
-        } else if ("row".equals(name)) {
+        } else if (ROW.equals(name)) {
             if (thisRow == 0) {
                 // 获取标题行的列数
                 if (rows.get(0).getCol().size() > minColumnCount) {
@@ -240,8 +233,6 @@ public class ExcelXSSFSheetHandler extends DefaultHandler {
                 }
             }
             // 容器中加入行
-            // rows.add(new XRow());
-            // thisRow++;
             if (minColumnCount > 0) {
                 // Columns are 0 based
                 if (lastColumnNumber == -1) {

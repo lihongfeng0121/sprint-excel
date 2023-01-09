@@ -17,7 +17,9 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <slf4j.version>2.0.3</slf4j.version>
         <jackson.version>2.13.3</jackson.version>
-        <poi.version>4.1.2</poi.version>
+        <poi.version>5.2.2</poi.version>
+        <converter.version>1.0.0</converter.version>
+        <servlet-api.version>4.0.1</servlet-api.version>
         <junit.version>4.13.2</junit.version>
     </properties>
 
@@ -42,12 +44,12 @@
         <dependency>
             <groupId>io.github.lihongfeng0121</groupId>
             <artifactId>sprint-converter</artifactId>
-            <version>1.0.0</version>
+            <version>${converter.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
+            <version>${servlet-api.version}</version>
         </dependency>
     </dependencies>
 

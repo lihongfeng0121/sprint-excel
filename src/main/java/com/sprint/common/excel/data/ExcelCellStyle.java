@@ -1,8 +1,8 @@
 package com.sprint.common.excel.data;
 
-import java.util.Objects;
-
 import org.apache.poi.ss.usermodel.IndexedColors;
+
+import java.util.Objects;
 
 public class ExcelCellStyle {
     public static final short COLOR_BLACK;
@@ -56,13 +56,15 @@ public class ExcelCellStyle {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
-        if (o == null || getClass() != o.getClass())
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         ExcelCellStyle that = (ExcelCellStyle) o;
         return Objects.equals(fontColor, that.fontColor) && Objects.equals(alignment, that.alignment)
-            && Objects.equals(verticalAlignment, that.verticalAlignment) && Objects.equals(bold, that.bold);
+                && Objects.equals(verticalAlignment, that.verticalAlignment) && Objects.equals(bold, that.bold);
     }
 
     @Override
@@ -73,7 +75,7 @@ public class ExcelCellStyle {
     @Override
     public String toString() {
         return "ExcelCellStyle{" + "fontColor=" + fontColor + ", alignment=" + alignment + ", verticalAlignment="
-            + verticalAlignment + ", bold=" + bold + '}';
+                + verticalAlignment + ", bold=" + bold + '}';
     }
 
     static {
