@@ -89,7 +89,7 @@ public class ExcelSheetWriter {
         return excelable(Excelables.none());
     }
 
-    public <T> RowWriter<T> of(Map<String, String> mapper, Class<T> rowType) {
+    public <T> RowWriter<T> of(Map<String, String> mapper) {
         return excelable(Excelables.of(mapper));
     }
 

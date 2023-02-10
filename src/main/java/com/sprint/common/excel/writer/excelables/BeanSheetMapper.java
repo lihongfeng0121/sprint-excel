@@ -5,7 +5,7 @@ package com.sprint.common.excel.writer.excelables;
  * @since 2022/7/18
  */
 
-import com.sprint.common.converter.conversion.nested.bean.Beans;
+import com.sprint.common.converter.util.Beans;
 import com.sprint.common.excel.data.ExcelCell;
 import com.sprint.common.excel.writer.Excelable;
 

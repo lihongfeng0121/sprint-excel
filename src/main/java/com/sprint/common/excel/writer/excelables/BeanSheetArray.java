@@ -1,6 +1,6 @@
 package com.sprint.common.excel.writer.excelables;
 
-import com.sprint.common.converter.conversion.nested.bean.Beans;
+import com.sprint.common.converter.util.Beans;
 import com.sprint.common.excel.data.ExcelCell;
 import com.sprint.common.excel.writer.Excelable;
 
@@ -35,7 +35,7 @@ public class BeanSheetArray<T> implements Excelable<T> {
     /**
      * @param headers   头数组
      * @param propertys 属性名
-     * @param <T> t
+     * @param <T>       t
      * @return ExcelCell
      */
     public static <T> BeanSheetArray<T> of(String[] headers, String[] propertys) {
