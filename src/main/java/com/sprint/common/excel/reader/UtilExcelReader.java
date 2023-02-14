@@ -14,6 +14,7 @@ import org.apache.poi.ooxml.util.PackageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,6 +50,17 @@ public class UtilExcelReader {
     /**
      * 读Excel
      *
+     * @param filePath 文件地址
+     * @return 行
+     * @throws Exception e
+     */
+    public static List<XRow> readExcel(String filePath) throws Exception {
+        return readExcel(new FileInputStream(filePath));
+    }
+
+    /**
+     * 读Excel
+     *
      * @param fin       输入流
      * @param excelType excel类型
      * @return 行
@@ -75,6 +87,18 @@ public class UtilExcelReader {
     /**
      * 读Excel
      *
+     * @param filePath  文件地址
+     * @param excelType excel类型
+     * @return 行
+     * @throws Exception e
+     */
+    public static List<XRow> readExcel(String filePath, ExcelType excelType) throws Exception {
+        return readExcel(new FileInputStream(filePath), excelType);
+    }
+
+    /**
+     * 读Excel
+     *
      * @param sheetName sheetName
      * @param fin       输入流
      * @return 行
@@ -83,6 +107,18 @@ public class UtilExcelReader {
     public static List<XRow> readExcelSheet(String sheetName, InputStream fin) throws Exception {
         InputStream[] inputStreams = Miscs.copyInputStream(fin, 2);
         return readExcelSheet(sheetName, inputStreams[0], Excels.getExcelType(inputStreams[1]));
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param sheetName sheetName
+     * @param filePath  文件地址
+     * @return 行
+     * @throws Exception e
+     */
+    public static List<XRow> readExcelSheet(String sheetName, String filePath) throws Exception {
+        return readExcelSheet(sheetName, new FileInputStream(filePath));
     }
 
     /**
@@ -105,6 +141,19 @@ public class UtilExcelReader {
     /**
      * 读Excel
      *
+     * @param sheetName sheetName
+     * @param filePath  filePath
+     * @param excelType excel类型
+     * @return 行
+     * @throws Exception e
+     */
+    public static List<XRow> readExcelSheet(String sheetName, String filePath, ExcelType excelType) throws Exception {
+        return readExcelSheet(sheetName, new FileInputStream(filePath), excelType);
+    }
+
+    /**
+     * 读Excel
+     *
      * @param sheetNumber sheetNumber
      * @param fin         输入流
      * @return 行
@@ -113,6 +162,31 @@ public class UtilExcelReader {
     public static List<XRow> readExcelSheet(int sheetNumber, InputStream fin) throws Exception {
         InputStream[] inputStreams = Miscs.copyInputStream(fin, 2);
         return readExcelSheet(sheetNumber, inputStreams[0], Excels.getExcelType(inputStreams[1]));
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param sheetNumber sheetNumber
+     * @param filePath    filePath
+     * @return 行
+     * @throws Exception e
+     */
+    public static List<XRow> readExcelSheet(int sheetNumber, String filePath) throws Exception {
+        return readExcelSheet(sheetNumber, new FileInputStream(filePath));
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param sheetNumber sheetNumber
+     * @param filePath    filePath
+     * @param excelType   excel类型
+     * @return 行
+     * @throws Exception e
+     */
+    public static List<XRow> readExcelSheet(int sheetNumber, String filePath, ExcelType excelType) throws Exception {
+        return readExcelSheet(sheetNumber, new FileInputStream(filePath), excelType);
     }
 
     /**
@@ -147,6 +221,29 @@ public class UtilExcelReader {
     public static Map<String, List<XRow>> readExcelSheets(InputStream fin) throws Exception {
         InputStream[] inputStreams = Miscs.copyInputStream(fin, 2);
         return readExcelSheets(inputStreams[0], Excels.getExcelType(inputStreams[1]));
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param filePath filePath
+     * @return 行
+     * @throws Exception e
+     */
+    public static Map<String, List<XRow>> readExcelSheets(String filePath) throws Exception {
+        return readExcelSheets(new FileInputStream(filePath));
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param filePath  filePath
+     * @param excelType excel类型
+     * @return 行
+     * @throws Exception e
+     */
+    public static Map<String, List<XRow>> readExcelSheets(String filePath, ExcelType excelType) throws Exception {
+        return readExcelSheets(new FileInputStream(filePath), excelType);
     }
 
     /**
@@ -202,6 +299,35 @@ public class UtilExcelReader {
      *
      * @param titleRowNumber  标题行号
      * @param dateStartNumber 数据行号
+     * @param filePath        filePath
+     * @return 行
+     * @throws Exception e
+     */
+    public static List<XTDRow> readExcel2XTDRow(int titleRowNumber, int dateStartNumber, String filePath)
+            throws Exception {
+        return readExcel2XTDRow(titleRowNumber, dateStartNumber, new FileInputStream(filePath));
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param titleRowNumber  标题行号
+     * @param dateStartNumber 数据行号
+     * @param filePath        filePath
+     * @param excelType       excel类型
+     * @return 行
+     * @throws Exception e
+     */
+    public static List<XTDRow> readExcel2XTDRow(int titleRowNumber, int dateStartNumber, String filePath,
+                                                ExcelType excelType) throws Exception {
+        return readExcel2XTDRow(titleRowNumber, dateStartNumber, new FileInputStream(filePath), excelType);
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param titleRowNumber  标题行号
+     * @param dateStartNumber 数据行号
      * @param fin             输入流
      * @param excelType       excel类型
      * @return 行
@@ -223,6 +349,22 @@ public class UtilExcelReader {
         return list;
     }
 
+
+    /**
+     * 读Excel
+     *
+     * @param sheetName       sheetName
+     * @param titleRowNumber  标题行号
+     * @param dateStartNumber 数据行号
+     * @param filePath        filePath
+     * @return List
+     * @throws Exception e
+     */
+    public static List<XTDRow> readExcel2XTDRow(String sheetName, int titleRowNumber, int dateStartNumber,
+                                                String filePath) throws Exception {
+        return readExcel2XTDRow(sheetName, titleRowNumber, dateStartNumber, new FileInputStream(filePath));
+    }
+
     /**
      * 读Excel
      *
@@ -238,6 +380,11 @@ public class UtilExcelReader {
         InputStream[] inputStreams = Miscs.copyInputStream(fin, 2);
         return readExcel2XTDRow(sheetName, titleRowNumber, dateStartNumber, inputStreams[0],
                 Excels.getExcelType(inputStreams[1]));
+    }
+
+    public static List<XTDRow> readExcel2XTDRow(String sheetName, int titleRowNumber, int dateStartNumber,
+                                                String filePath, ExcelType excelType) throws Exception {
+        return readExcel2XTDRow(sheetName, titleRowNumber, dateStartNumber, new FileInputStream(filePath), excelType);
     }
 
 
@@ -256,7 +403,7 @@ public class UtilExcelReader {
         List<XRow> rows = allSheetRows.get(sheetName);
 
         if (rows == null) {
-            logger.warn("UtilExcelReader#readExcel2Map sheetName[] not exit!", sheetName);
+            logger.warn("UtilExcelReader#readExcel2Map sheetName[{}] not exit!", sheetName);
             return Collections.emptyList();
         }
 
@@ -280,6 +427,18 @@ public class UtilExcelReader {
      * 读Excel
      *
      * @param sheetName sheetName
+     * @param filePath  filePath
+     * @return List
+     * @throws Exception e
+     */
+    public static List<XTDRow> readExcel2XTDRow(String sheetName, String filePath) throws Exception {
+        return readExcel2XTDRow(sheetName, new FileInputStream(filePath));
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param sheetName sheetName
      * @param fin       输入流
      * @param excelType excel类型
      * @return List
@@ -288,6 +447,31 @@ public class UtilExcelReader {
     public static List<XTDRow> readExcel2XTDRow(String sheetName, InputStream fin, ExcelType excelType)
             throws Exception {
         return readExcel2XTDRow(sheetName, DEFAULT_TITLE_ROW_NUMBER, DEFAULT_DATA_ROW_NUMBER, fin, excelType);
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param sheetName sheetName
+     * @param filePath  filePath
+     * @param excelType excel类型
+     * @return List
+     * @throws Exception e
+     */
+    public static List<XTDRow> readExcel2XTDRow(String sheetName, String filePath, ExcelType excelType)
+            throws Exception {
+        return readExcel2XTDRow(sheetName, new FileInputStream(filePath), excelType);
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param filePath filePath
+     * @return List
+     * @throws Exception e
+     */
+    public static List<XTDRow> readExcel2XTDRow(String filePath) throws Exception {
+        return readExcel2XTDRow(new FileInputStream(filePath));
     }
 
     /**
@@ -305,6 +489,18 @@ public class UtilExcelReader {
     /**
      * 读Excel
      *
+     * @param filePath  filePath
+     * @param excelType excel类型
+     * @return List
+     * @throws Exception e
+     */
+    public static List<XTDRow> readExcel2XTDRow(String filePath, ExcelType excelType) throws Exception {
+        return readExcel2XTDRow(DEFAULT_TITLE_ROW_NUMBER, DEFAULT_DATA_ROW_NUMBER, new FileInputStream(filePath), excelType);
+    }
+
+    /**
+     * 读Excel
+     *
      * @param fin       输入流
      * @param excelType excel类型
      * @return List
@@ -314,9 +510,19 @@ public class UtilExcelReader {
         return readExcel2XTDRow(DEFAULT_TITLE_ROW_NUMBER, DEFAULT_DATA_ROW_NUMBER, fin, excelType);
     }
 
+
+    public static List<Map<String, XCol>> readExcel2Map(String sheetName, String filePath) throws Exception {
+        return readExcel2Map(sheetName, new FileInputStream(filePath));
+    }
+
     public static List<Map<String, XCol>> readExcel2Map(String sheetName, InputStream fin) throws Exception {
         InputStream[] inputStreams = Miscs.copyInputStream(fin, 2);
         return readExcel2Map(sheetName, inputStreams[0], Excels.getExcelType(inputStreams[1]));
+    }
+
+    public static List<Map<String, XCol>> readExcel2Map(String sheetName, String filePath, ExcelType excelType)
+            throws Exception {
+        return readExcel2Map(sheetName, new FileInputStream(filePath), excelType);
     }
 
     public static List<Map<String, XCol>> readExcel2Map(String sheetName, InputStream fin, ExcelType excelType)
@@ -346,7 +552,7 @@ public class UtilExcelReader {
         List<XRow> rows = allSheetRows.get(sheetName);
 
         if (rows == null) {
-            logger.warn("UtilExcelReader#readExcel2Map sheetName[] not exit!", sheetName);
+            logger.warn("UtilExcelReader#readExcel2Map sheetName[{}] not exit!", sheetName);
             return Collections.emptyList();
         }
 
@@ -356,6 +562,10 @@ public class UtilExcelReader {
     public static List<Map<String, XCol>> readExcel2Map(int sheetNumber, InputStream fin) throws Exception {
         InputStream[] inputStreams = Miscs.copyInputStream(fin, 2);
         return readExcel2Map(sheetNumber, inputStreams[0], Excels.getExcelType(inputStreams[1]));
+    }
+
+    public static List<Map<String, XCol>> readExcel2Map(int sheetNumber, String filePath) throws Exception {
+        return readExcel2Map(sheetNumber, new FileInputStream(filePath));
     }
 
     public static List<Map<String, XCol>> readExcel2Map(int sheetNumber, InputStream fin, ExcelType excelType)
@@ -380,7 +590,7 @@ public class UtilExcelReader {
         String sheetName = Safes.at(allSheetRows.keySet(), sheetNumber);
 
         if (Miscs.isEmpty(sheetName)) {
-            logger.warn("UtilExcelReader#readExcel2Map sheet[] not exit!", sheetNumber);
+            logger.warn("UtilExcelReader#readExcel2Map sheet[{}] not exit!", sheetNumber);
             return Collections.emptyList();
         }
 
@@ -400,6 +610,35 @@ public class UtilExcelReader {
             throws Exception {
         InputStream[] inputStreams = Miscs.copyInputStream(fin, 2);
         return readExcel2Map(titleRowNumber, dateStartNumber, inputStreams[0], Excels.getExcelType(inputStreams[1]));
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param dateStartNumber dateStartNumber
+     * @param titleRowNumber  titleRowNumber
+     * @param filePath        filePath
+     * @return 行List
+     * @throws Exception e
+     */
+    public static List<Map<String, XCol>> readExcel2Map(int titleRowNumber, int dateStartNumber, String filePath)
+            throws Exception {
+        return readExcel2Map(titleRowNumber, dateStartNumber, filePath);
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param dateStartNumber dateStartNumber
+     * @param titleRowNumber  titleRowNumber
+     * @param filePath        filePath
+     * @param excelType       excel类型
+     * @return 行List
+     * @throws Exception e
+     */
+    public static List<Map<String, XCol>> readExcel2Map(int titleRowNumber, int dateStartNumber, String filePath,
+                                                        ExcelType excelType) throws Exception {
+        return readExcel2Map(titleRowNumber, dateStartNumber, new FileInputStream(filePath), excelType);
     }
 
     /**
@@ -438,6 +677,29 @@ public class UtilExcelReader {
     public static List<Map<String, XCol>> readExcel2Map(InputStream fin) throws Exception {
         InputStream[] inputStreams = Miscs.copyInputStream(fin, 2);
         return readExcel2Map(inputStreams[0], Excels.getExcelType(inputStreams[1]));
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param filePath 输入流
+     * @return 行List
+     * @throws Exception e
+     */
+    public static List<Map<String, XCol>> readExcel2Map(String filePath) throws Exception {
+        return readExcel2Map(new FileInputStream(filePath));
+    }
+
+    /**
+     * 读Excel
+     *
+     * @param filePath  filePath
+     * @param excelType excel类型
+     * @return 行List
+     * @throws Exception e
+     */
+    public static List<Map<String, XCol>> readExcel2Map(String filePath, ExcelType excelType) throws Exception {
+        return readExcel2Map(new FileInputStream(filePath), excelType);
     }
 
     /**
