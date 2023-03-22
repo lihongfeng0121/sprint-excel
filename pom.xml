@@ -15,7 +15,7 @@
         <javadoc.opts>-OCLint:none</javadoc.opts>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <slf4j.version>2.0.3</slf4j.version>
+        <slf4j.version>1.7.25</slf4j.version>
         <jackson.version>2.13.3</jackson.version>
         <poi.version>5.2.2</poi.version>
         <converter.version>1.0.1</converter.version>
