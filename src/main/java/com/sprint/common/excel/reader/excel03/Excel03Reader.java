@@ -46,10 +46,11 @@ public class Excel03Reader implements ExcelReader, HSSFListener {
             MissingRecordAwareHSSFListener listener = new MissingRecordAwareHSSFListener(this);
             // 格式监听器
             formatListener = new FormatTrackingHSSFListener(listener);
-            // create a new org.apache.poi.poifs.filesystem.Filesystem
-            POIFSFileSystem poifs = new POIFSFileSystem(fin);
-            // get the Workbook (excel part) stream in a InputStream
-            din = poifs.createDocumentInputStream("Workbook");
+            try (// create a new org.apache.poi.poifs.filesystem.Filesystem
+            POIFSFileSystem poifs = new POIFSFileSystem(fin)) {
+                // get the Workbook (excel part) stream in a InputStream
+                din = poifs.createDocumentInputStream("Workbook");
+            }
             // construct out HSSFRequest object
             HSSFRequest req = new HSSFRequest();
             // lazy listen for ALL records with the listener shown above
@@ -83,8 +84,6 @@ public class Excel03Reader implements ExcelReader, HSSFListener {
     @Override
     public void processRecord(Record record) {
         switch (record.getSid()) {
-            // the BOFRecord can represent either the beginning of a sheet or the
-            // workbook
             case BOFRecord.sid:
                 BOFRecord bof = (BOFRecord) record;
                 if (bof.getType() == BOFRecord.TYPE_WORKSHEET) {
@@ -97,7 +96,6 @@ public class Excel03Reader implements ExcelReader, HSSFListener {
                 String sheetName = bsr.getSheetname();
                 rows.computeIfAbsent(sheetName, (key) -> new ArrayList<>());
                 break;
-
             case RowRecord.sid:
                 XRow xrow = new XRow(currentSheet.size() + 1);
                 currentSheet.add(xrow);
@@ -108,7 +106,6 @@ public class Excel03Reader implements ExcelReader, HSSFListener {
                 XRow row = currentSheet.get(getRowNum(numrec.getRow()));
                 row.getCol().add(new XCol(value));
                 break;
-            // SSTRecords store a array of unique strings used in Excel.
             case SSTRecord.sid:
                 sstRecord = (SSTRecord) record;
                 break;
@@ -131,13 +128,12 @@ public class Excel03Reader implements ExcelReader, HSSFListener {
                 XCol boolCol = new XCol(String.valueOf(berec.getBooleanValue()));
                 currentSheet.get(getRowNum(berec.getRow())).getCol().add(boolCol);
                 break;
+            case MissingCellDummyRecord.sid:
+                MissingCellDummyRecord mc = (MissingCellDummyRecord) record;
+                currentSheet.get(getRowNum(mc.getRow())).getCol().add(XCol.EMPTY);
+                break;
             default:
                 break;
-        }
-        // 处理空值单元格
-        if (record instanceof MissingCellDummyRecord) {
-            MissingCellDummyRecord mc = (MissingCellDummyRecord) record;
-            currentSheet.get(getRowNum(mc.getRow())).getCol().add(XCol.EMPTY);
         }
     }
 
