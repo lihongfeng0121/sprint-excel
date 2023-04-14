@@ -128,12 +128,12 @@ public class Excel03Reader implements ExcelReader, HSSFListener {
                 XCol boolCol = new XCol(String.valueOf(berec.getBooleanValue()));
                 currentSheet.get(getRowNum(berec.getRow())).getCol().add(boolCol);
                 break;
-            case MissingCellDummyRecord.sid:
-                MissingCellDummyRecord mc = (MissingCellDummyRecord) record;
-                currentSheet.get(getRowNum(mc.getRow())).getCol().add(XCol.EMPTY);
-                break;
             default:
                 break;
+        }
+        if (record instanceof MissingCellDummyRecord) {
+            MissingCellDummyRecord mc = (MissingCellDummyRecord) record;
+            currentSheet.get(getRowNum(mc.getRow())).getCol().add(XCol.EMPTY);
         }
     }
 
