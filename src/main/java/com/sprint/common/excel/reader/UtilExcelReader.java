@@ -18,7 +18,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Excel 读工具
@@ -737,8 +736,8 @@ public class UtilExcelReader {
             return Collections.emptyList();
         }
         CachedIntrospectionResults introspectionResults = CachedIntrospectionResults.forClass(beanType);
-        PropertyAccess[] writePropertyAccess = introspectionResults.getWritePropertyAccess();
-        Map<String, String> cell2FieldMap = Stream.of(writePropertyAccess).collect(Collectors.toMap(item -> {
+        List<PropertyAccess> writePropertyAccess = introspectionResults.getWritePropertyAccess();
+        Map<String, String> cell2FieldMap = writePropertyAccess.stream().collect(Collectors.toMap(item -> {
             XCell xCell = item.getAnnotation(XCell.class);
             return Optional.ofNullable(xCell)
                     .map(XCell::name).filter(Miscs::isNotBlank).orElse(item.getName());

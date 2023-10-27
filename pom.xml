@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <groupId>io.github.lihongfeng0121</groupId>
     <modelVersion>4.0.0</modelVersion>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <artifactId>sprint-excel</artifactId>
     <packaging>jar</packaging>
     <url>https://github.com/lihongfeng0121/sprint-excel.git</url>
@@ -18,7 +18,7 @@
         <slf4j.version>1.7.30</slf4j.version>
         <jackson.version>2.13.3</jackson.version>
         <poi.version>5.2.2</poi.version>
-        <converter.version>1.0.1</converter.version>
+        <converter.version>1.1.0</converter.version>
         <servlet-api.version>4.0.1</servlet-api.version>
         <junit.version>4.13.2</junit.version>
         <!--插件版本-->

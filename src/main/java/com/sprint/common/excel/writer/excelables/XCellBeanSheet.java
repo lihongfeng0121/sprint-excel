@@ -12,7 +12,6 @@ import com.sprint.common.excel.util.Trees;
 import com.sprint.common.excel.writer.Excelable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -126,7 +125,7 @@ public class XCellBeanSheet<T> implements Excelable<T> {
     }
 
     private List<PropertyAccess> getXCellProperties(Class<?> tClass) {
-        return Arrays.stream(CachedIntrospectionResults.forClass(tClass).getReadPropertyAccess()).filter(item -> item.getAnnotation(XCell.class) != null).collect(Collectors.toList());
+        return CachedIntrospectionResults.forClass(tClass).getReadPropertyAccess().stream().filter(item -> item.getAnnotation(XCell.class) != null).collect(Collectors.toList());
     }
 
     private void fillRowTreeNode(List<FieldNode> nodes, PropertyAccess parentField, List<PropertyAccess> fieldList) {
